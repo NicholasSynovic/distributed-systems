@@ -3,6 +3,14 @@
 
 using namespace std;
 
+int shiftLetter(char letter, int shift)    {
+    if (letter == 32)
+    {
+        return letter + 0;
+    }
+    return letter + shift;
+}
+
 int main()  {
     int shift;
     string message;
@@ -15,13 +23,8 @@ int main()  {
     getline(cin, message);
 
     for (int i; i < message.length(); i++)  {
-        char letter = message[i];
-        if (letter == 32)   {
-            cout << letter;
-            continue;
-        }
-
-        cout << char(letter + shift);
+        char encryptedLetter = char(shiftLetter(message[i], shift));
+        cout << encryptedLetter;
     }
 
         return 0;
