@@ -1,5 +1,7 @@
 #include <iostream>
+#include <fstream>
 #include <string.h>
+#include <set>
 
 using namespace std;
 
@@ -17,7 +19,7 @@ int setLength(char* charLength)
     int length = stoi((string)charLength);
     if (length <= 0)
     {
-        return 10;
+        return 3;
     }
     return length;
 }
@@ -39,9 +41,28 @@ string setOutputPath(string path)
     return path;
 }
 
+set<string> loadFile(string path, int wordLength)   {
+    // https://cplusplus.com/doc/tutorial/files/
+    set<string> data;
+    string line;
+    ifstream myFile;
+    myFile.open(path);
+
+    if(myFile.is_open())    {
+        while(getline(myFile, line))    {
+            if(line.length() >= wordLength)   {
+                data.insert(line);
+            }
+        }
+    }
+
+    myFile.close();
+    return data;
+}
+
 int main(int argc, char **argv) {
     int lines = 10;
-    int length = 10;
+    int length = 3;
     string dictPath = "wordlist.txt";
     string outputPath = "stdout";
 
@@ -79,6 +100,7 @@ int main(int argc, char **argv) {
             return 1;
         }
     }
-    cout << outputPath << endl;
+    set<string> data = loadFile(dictPath, length);
+
     return -1;
 }
