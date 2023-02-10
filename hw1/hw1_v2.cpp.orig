@@ -6,12 +6,10 @@
 
 using namespace std;
 
-int setLines(char* charLines)
-{
+int setLines(char* charLines) {
     int lines = stoi((string)charLines);
 
-    if(lines <= 0)
-    {
+    if(lines <= 0)  {
         return 10;
     }
     return lines;
@@ -29,8 +27,7 @@ int setLength(char* charLength)
 
 string setFilePath(string path)
 {
-    if(path.empty())
-    {
+    if(path.empty())    {
         return "wordlist.txt";
     }
     return path;
@@ -45,20 +42,16 @@ string setOutputPath(string path)
     return path;
 }
 
-set<string> loadFile(string path, int wordLength)
-{
+set<string> loadFile(string path, int wordLength)   {
     // https://cplusplus.com/doc/tutorial/files/
     set<string> data;
     string line;
     ifstream myFile;
     myFile.open(path);
 
-    if(myFile.is_open())
-    {
-        while(getline(myFile, line))
-        {
-            if(line.length() >= wordLength & line.find_first_not_of("abcdefghijklmnop") == 0)
-            {
+    if(myFile.is_open())    {
+        while(getline(myFile, line))    {
+            if(line.length() >= wordLength & line.find_first_not_of("abcdefghijklmnop") == 0)   {
                 // https://www.geeksforgeeks.org/conversion-whole-string-uppercase-lowercase-using-stl-c/
                 transform(line.begin(), line.end(), line.begin(), ::toupper);
                 data.insert(line);
@@ -70,17 +63,14 @@ set<string> loadFile(string path, int wordLength)
     return data;
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     int lines = 10;
     int length = 3;
     string dictPath = "wordlist.txt";
     string outputPath = "stdout";
 
-    for (int i; i < argc; i++)
-    {
-        if (strcmp(argv[i], "-n") == 0 | strcmp(argv[i], "-lines") == 0)
-        {
+    for (int i; i < argc; i++)  {
+        if (strcmp(argv[i], "-n") == 0 | strcmp(argv[i], "-lines") == 0)    {
             lines = setLines(argv[i + 1]);
             continue;
         }
