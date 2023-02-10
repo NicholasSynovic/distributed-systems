@@ -1,38 +1,51 @@
 #include <iostream>
 #include <string.h>
-#include <stdio.h>
 
 using namespace std;
 
-int setLines(int lines) {
+int setLines(char* charLines) {
+    int lines = stoi((string)charLines);
+
     if(lines <= 0)  {
-        return 0;
+        return 10;
     }
-    return int(lines);
+    return lines;
 }
 
-int setLength(int length)
+int setLength(char* charLength)
 {
+    int length = stoi((string)charLength);
     if (length <= 0)
     {
-        return 0;
+        return 10;
     }
-    return int(length);
+    return length;
 }
+
+string setFilePath(string path) {
+    if(path.empty())    {
+        return "wordlist.txt";
+    }
+    return path;
+}
+
+
 
 int main(int argc, char **argv) {
     int lines = 10;
     int length = 10;
+    string path = "wordlist.txt";
+
 
 
     for (int i; i < argc; i++)  {
         if (strcmp(argv[i], "-n") == 0 | strcmp(argv[i], "-lines") == 0)    {
-            cout << "Test1" << endl;
+            lines = setLines(argv[i++]);
         }
 
         if (strcmp(argv[i], "-l") == 0 | strcmp(argv[i], "-length") == 0)
         {
-            cout << "Test2" << endl;
+            length = 
         }
 
         if (strcmp(argv[i], "-d") == 0 | strcmp(argv[i], "-dict") == 0)
@@ -56,5 +69,5 @@ int main(int argc, char **argv) {
         }
     }
 
-    return 0;
+    return -1;
 }
