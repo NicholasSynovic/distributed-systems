@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string.h>
 #include <set>
+#include <algorithm>
 
 using namespace std;
 
@@ -50,7 +51,9 @@ set<string> loadFile(string path, int wordLength)   {
 
     if(myFile.is_open())    {
         while(getline(myFile, line))    {
-            if(line.length() >= wordLength)   {
+            if(line.length() >= wordLength & line.find_first_not_of("abcdefghijklmnop") == 0)   {
+                // https://www.geeksforgeeks.org/conversion-whole-string-uppercase-lowercase-using-stl-c/
+                transform(line.begin(), line.end(), line.begin(), ::toupper);
                 data.insert(line);
             }
         }
@@ -101,6 +104,4 @@ int main(int argc, char **argv) {
         }
     }
     set<string> data = loadFile(dictPath, length);
-
-    return -1;
 }
