@@ -22,40 +22,51 @@ int setLength(char* charLength)
     return length;
 }
 
-string setFilePath(string path) {
+string setFilePath(string path)
+{
     if(path.empty())    {
         return "wordlist.txt";
     }
     return path;
 }
 
-
+string setOutputPath(string path)
+{
+    if (path.empty())
+    {
+        return "stdout";
+    }
+    return path;
+}
 
 int main(int argc, char **argv) {
     int lines = 10;
     int length = 10;
-    string path = "wordlist.txt";
-
-
+    string dictPath = "wordlist.txt";
+    string outputPath = "stdout";
 
     for (int i; i < argc; i++)  {
         if (strcmp(argv[i], "-n") == 0 | strcmp(argv[i], "-lines") == 0)    {
-            lines = setLines(argv[i++]);
+            lines = setLines(argv[i + 1]);
+            continue;
         }
 
         if (strcmp(argv[i], "-l") == 0 | strcmp(argv[i], "-length") == 0)
         {
-            length = 
+            length = setLength(argv[i + 1]);
+            continue;
         }
 
         if (strcmp(argv[i], "-d") == 0 | strcmp(argv[i], "-dict") == 0)
         {
-            cout << "Test3" << endl;
+            dictPath = setFilePath(argv[i + 1]);
+            continue;
         }
 
         if (strcmp(argv[i], "-o") == 0 | strcmp(argv[i], "-output") == 0)
         {
-            cout << "Test4" << endl;
+            outputPath = setOutputPath(argv[i + 1]);
+            continue;
         }
         if (strcmp(argv[i], "-h") == 0 | strcmp(argv[i], "-help") == 0)
         {
@@ -68,6 +79,6 @@ int main(int argc, char **argv) {
             return 1;
         }
     }
-
+    cout << outputPath << endl;
     return -1;
 }
