@@ -3,10 +3,11 @@
 #include <string.h>
 #include <set>
 #include <algorithm>
+#include <random>
 
 using namespace std;
 
-int setLines(char* charLines)
+int setNumberOfSentences(char *charLines)
 {
     int lines = stoi((string)charLines);
 
@@ -17,7 +18,7 @@ int setLines(char* charLines)
     return lines;
 }
 
-int setLength(char* charLength)
+int setMinimumWordLength(char *charLength)
 {
     int length = stoi((string)charLength);
     if (length <= 0)
@@ -27,7 +28,7 @@ int setLength(char* charLength)
     return length;
 }
 
-string setFilePath(string path)
+string setDictionaryPath(string path)
 {
     if(path.empty())
     {
@@ -45,19 +46,19 @@ string setOutputPath(string path)
     return path;
 }
 
-set<string> loadFile(string path, int wordLength)
+set<string> loadDictionary(string dictionaryPath, int minimumWordLength)
 {
     // https://cplusplus.com/doc/tutorial/files/
     set<string> data;
     string line;
     ifstream myFile;
-    myFile.open(path);
+    myFile.open(dictionaryPath);
 
     if(myFile.is_open())
     {
         while(getline(myFile, line))
         {
-            if(line.length() >= wordLength & line.find_first_not_of("abcdefghijklmnop") == 0)
+            if (line.length() >= minimumWordLength & line.find_first_not_of("abcdefghijklmnopqrstuvwxyz") == -1)
             {
                 // https://www.geeksforgeeks.org/conversion-whole-string-uppercase-lowercase-using-stl-c/
                 transform(line.begin(), line.end(), line.begin(), ::toupper);
@@ -70,30 +71,53 @@ set<string> loadFile(string path, int wordLength)
     return data;
 }
 
+string generateSentence(set<string> dictionary)
+{
+    random_device rd;
+    mt19937 gen(rd());
+
+    uniform_int_distribution<> distr(0, dictionary.size());
+    int wordCount = 0;
+    int maxWordCount = 10;
+
+    string sentence = "";
+
+    set<string>::iterator dictionaryIter = dictionary.begin();
+
+    while (wordCount < maxWordCount)
+    {
+        sentence = sentence + *next(dictionary.begin(), distr(gen)) + " ";
+        wordCount++;
+    }
+
+    cout << sentence << endl;
+    return sentence;
+}
+
 int main(int argc, char **argv)
 {
-    int lines = 10;
-    int length = 3;
-    string dictPath = "wordlist.txt";
+    int numberOfSentences = 10;
+    int minimumWordLength = 3;
+    string dictionaryPath = "wordlist.txt";
     string outputPath = "stdout";
 
     for (int i; i < argc; i++)
     {
         if (strcmp(argv[i], "-n") == 0 | strcmp(argv[i], "-lines") == 0)
         {
-            lines = setLines(argv[i + 1]);
+            numberOfSentences = setNumberOfSentences(argv[i + 1]);
             continue;
         }
 
         if (strcmp(argv[i], "-l") == 0 | strcmp(argv[i], "-length") == 0)
         {
-            length = setLength(argv[i + 1]);
+            minimumWordLength = setMinimumWordLength(argv[i + 1]);
             continue;
         }
 
         if (strcmp(argv[i], "-d") == 0 | strcmp(argv[i], "-dict") == 0)
         {
-            dictPath = setFilePath(argv[i + 1]);
+            dictionaryPath = setDictionaryPath(argv[i + 1]);
             continue;
         }
 
@@ -113,5 +137,6 @@ int main(int argc, char **argv)
             return 1;
         }
     }
-    set<string> data = loadFile(dictPath, length);
+    set<string> dictionary = loadDictionary(dictionaryPath, minimumWordLength);
+    generateSentence(dictionary);
 }
