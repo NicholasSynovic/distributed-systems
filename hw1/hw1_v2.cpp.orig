@@ -71,7 +71,7 @@ set<string> loadDictionary(string dictionaryPath, int minimumWordLength)
     return data;
 }
 
-string generateSentence(set<string> dictionary, int shift)
+string generateSentence(set<string> dictionary)
 {
     random_device rd;
     mt19937 gen(rd());
@@ -82,19 +82,21 @@ string generateSentence(set<string> dictionary, int shift)
 
     string sentence = "";
 
+    set<string>::iterator dictionaryIter = dictionary.begin();
+
     while (wordCount < maxWordCount)
     {
-        int letterIndexer = 0;
         string word = *next(dictionary.begin(), distr(gen));
 
-        while(letterIndexer < word.size())    {
-            word[letterIndexer] = word[letterIndexer] + shift;
-            letterIndexer++;
+        for (int i; i < word.length(); i++) {
+            word[i] = word[i] + 10;
         }
-        sentence = sentence + word + " ";
+
+            sentence = sentence + word, distr(gen) + " ";
         wordCount++;
     }
 
+    cout << sentence << endl;
     return sentence;
 }
 
@@ -142,5 +144,5 @@ int main(int argc, char **argv)
         }
     }
     set<string> dictionary = loadDictionary(dictionaryPath, minimumWordLength);
-    generateSentence(dictionary, 10);
+    generateSentence(dictionary);
 }
