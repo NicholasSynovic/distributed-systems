@@ -89,7 +89,11 @@ string generateSentence(set<string> dictionary, int shift)
 
         while(letterIndexer < word.size())    {
             word[letterIndexer] = word[letterIndexer] + shift;
-            letterIndexer++;
+            if (word[letterIndexer] > 90)   {
+                int diff = word[letterIndexer] - 26;
+                word[letterIndexer] = diff;
+            }
+                letterIndexer++;
         }
         sentence = sentence + word + " ";
         wordCount++;
@@ -104,6 +108,7 @@ int main(int argc, char **argv)
     int minimumWordLength = 3;
     string dictionaryPath = "wordlist.txt";
     string outputPath = "stdout";
+    int shift = rand() % 26;
 
     for (int i; i < argc; i++)
     {
@@ -142,5 +147,5 @@ int main(int argc, char **argv)
         }
     }
     set<string> dictionary = loadDictionary(dictionaryPath, minimumWordLength);
-    generateSentence(dictionary, 10);
+    cout << generateSentence(dictionary, shift);
 }
