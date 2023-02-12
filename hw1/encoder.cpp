@@ -1,10 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <string.h>
-#include <set>
-#include <algorithm>
-#include <random>
-#include <vector>
+#include "encoder.h"
 
 using namespace std;
 
