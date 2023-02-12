@@ -1,4 +1,5 @@
 #!/bin/bash
 
-g++ -std=c++17 $1 -o hw1
-./hw1 -o testing.txt -l 10
+astyle --style=allman $1
+g++ -std=c++17 $1 -o hw1.out
+./hw1.out

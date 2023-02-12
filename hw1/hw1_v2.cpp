@@ -4,6 +4,7 @@
 #include <set>
 #include <algorithm>
 #include <random>
+#include <vector>
 
 using namespace std;
 
@@ -87,13 +88,15 @@ string generateSentence(set<string> dictionary, int shift)
         int letterIndexer = 0;
         string word = *next(dictionary.begin(), distr(gen));
 
-        while(letterIndexer < word.size())    {
+        while(letterIndexer < word.size())
+        {
             word[letterIndexer] = word[letterIndexer] + shift;
-            if (word[letterIndexer] > 90)   {
+            if (word[letterIndexer] > 90)
+            {
                 int diff = word[letterIndexer] - 26;
                 word[letterIndexer] = diff;
             }
-                letterIndexer++;
+            letterIndexer++;
         }
         sentence = sentence + word + " ";
         wordCount++;
@@ -102,8 +105,33 @@ string generateSentence(set<string> dictionary, int shift)
     return sentence;
 }
 
+void writeToOutput(vector<string> data, string output)
+{
+    if(output == "stdout")
+    {
+        for (int i = 0; i < data.size(); i++)
+        {
+            cout << data[i] << endl;
+            // data.pop_back();
+        }
+    }
+    else
+    {
+        ofstream outputFile;
+        outputFile.open(output);
+        for (string line : data)
+        {
+            outputFile << line << endl;
+        }
+        outputFile.close();
+    }
+
+}
+
 int main(int argc, char **argv)
 {
+    vector<string> sentences;
+
     int numberOfSentences = 10;
     int minimumWordLength = 3;
     string dictionaryPath = "wordlist.txt";
@@ -147,5 +175,11 @@ int main(int argc, char **argv)
         }
     }
     set<string> dictionary = loadDictionary(dictionaryPath, minimumWordLength);
-    cout << generateSentence(dictionary, shift);
+
+    for (int i; i < numberOfSentences; i++)
+    {
+        sentences.push_back(generateSentence(dictionary, shift));
+    }
+
+    writeToOutput(sentences, outputPath);
 }
