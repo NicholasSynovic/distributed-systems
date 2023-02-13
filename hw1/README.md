@@ -7,13 +7,19 @@
 
 - [Homework 1](#homework-1)
   - [Table of Contents](#table-of-contents)
+  - [Note](#note)
   - [Command Line Arguements](#command-line-arguements)
     - [Encoder](#encoder)
     - [Decoder](#decoder)
 
+## Note
+
+- (From Nicholas Synovic) Had difficulty setting up tests. Tests are written but are otherwise non-functional.
+- (From Erik Pautsch) ChatGPT was used for questions such as `What sort of C++ data structure can I use to store a pair containing an integer and string?` Additionally, I also used ChapGPT to explain general language operations such as reading from a file/stdin.
+
 ## Command Line Arguements
 
-### Encoder
+### Encoder (Nicholas Synovic)
 
 `./encoder -h`
 
@@ -26,4 +32,15 @@ COMP 439 HW 1: Ceasar Cipher Encoder
  -h | -help        Display this message
 ```
 
-### Decoder
+### Decoder (Erik Pautsch)
+
+`./decoder -h`
+
+```shell
+COMP 439 HW 1: Ceasar Cipher Decoder
+ -d | -dict        Location of dictionary containing the word list (default = wordlist.txt)
+ -i | -input       Input filename. No input defaults to $STDIN
+ -o | -output      Output filename. No input defaults to $STDOUT
+ -h | -help        Display this message
+```
+
