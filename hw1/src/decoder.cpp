@@ -156,7 +156,8 @@ void writeToOutput(queue<pair<int, string>> decodedQ, const string output) {
     outputFile.open(output);
     while (!decodedQ.empty()) {
       pair<int, string> front = decodedQ.front();
-      outputFile << front.first << ": " << front.second << endl;
+      outputFile << front.first << "\t: " << front.second << endl;
+      decodedQ.pop();
     }
     outputFile.close();
   }

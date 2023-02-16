@@ -1,38 +1,21 @@
-# The commented lines are for things you may want to do in more compmlex projects
-# FetchContent_MakeAvailable(googletest)
+cmake_minimum_required(VERSION 3.14)
 
-# enable_testing()
+project(my_project)
 
-add_executable(
-  encoder
-  encoder.cpp
+set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# GoogleTest requires at least C++11
+set(CMAKE_CXX_STANDARD 11)
+
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG        release-1.11.0
 )
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
 
-add_executable(
-  decoder
-  decoder.cpp
-)
-
-# add_executable(
-  # decoderTests
-  # decoderTests.cc
-# )
-
-# add_executable(
-  # encoderTests
-  # encoderTests.cc
-# )
-
-# target_link_libraries(
-  # encoderTests
-  # gtest_main
-# )
-
-# target_link_libraries(
-  # decoderTests
-  # gtest_main
-# )
-
-# include(GoogleTest)
-# gtest_discover_tests(encoderTests)
-# gtest_discover_tests(decoderTests)
+add_subdirectory(src)

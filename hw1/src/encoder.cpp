@@ -38,14 +38,15 @@ set<string> loadDictionary(string dictionaryPath, int minimumWordLength) {
   set<string> data;
   string line;
   ifstream myFile;
+  
   myFile.open(dictionaryPath);
 
   if (myFile.is_open()) {
     while (getline(myFile, line)) {
+      // https://www.geeksforgeeks.org/conversion-whole-string-uppercase-lowercase-using-stl-c/
       transform(line.begin(), line.end(), line.begin(), ::toupper);
       if (line.length() >= minimumWordLength &
           line.find_first_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZ") == -1) {
-        // https://www.geeksforgeeks.org/conversion-whole-string-uppercase-lowercase-using-stl-c/
         data.insert(line);
       }
     }
