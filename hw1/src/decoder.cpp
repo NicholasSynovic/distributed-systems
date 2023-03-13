@@ -1,11 +1,18 @@
 #include "decoder.h"
 #include <algorithm>
+#include <CLI/CLI.hpp>
 
 using namespace std;
 
+int do_nothing() {
+  int x;
+  x = 5;
+  return x;
+}
+
 // Function to split a string into a queue of strings. Takes in a string to
 // split. Returns a queue of strings.
-queue<string> splitString(const string &toSplit) {
+queue<string> splitString(string &toSplit) {
   stringstream ss(toSplit);
   string word;
   queue<string> words;
@@ -18,12 +25,12 @@ queue<string> splitString(const string &toSplit) {
 
 // Function to attempt a given shift value. Takes in a string and shift value to
 // shift. Returns string after shift applied
-string shiftString(const string &toShift, const int &shiftValue) {
+string shiftString(string &toShift, int &shiftValue) {
   string toReturn;
   for (char c : toShift) {
     // toReturn += (char)(((c + shiftValue - 'A') % 26) + 'A');
     char shiftedLetter = c + shiftValue;
-    if (shiftedLetter > 90)  {
+    if (shiftedLetter > 90) {
       shiftedLetter -= 26;
     }
     toReturn += shiftedLetter;
@@ -33,8 +40,8 @@ string shiftString(const string &toShift, const int &shiftValue) {
 
 // Function to decode a string. Takes in a dictionary and a string to decode.
 // Returns the decoded string.
-pair<int, string> decode(const unordered_set<string> &dict,
-                         const string &toDecode) {
+pair<int, string> decode(unordered_set<string> &dict,
+                         string &toDecode) {
   pair<int, string> toReturnPair;
   string toReturnString;
   // string lower = toDecode;
@@ -82,8 +89,8 @@ pair<int, string> decode(const unordered_set<string> &dict,
 // Function to decode a file. Takes in a file name and a dictionary.
 // Returns a queue of decoded strings.
 queue<pair<int, string>>
-decodeLinesFromInput(const string &fileName,
-                     const unordered_set<string> &dict) {
+decodeLinesFromInput(string &fileName,
+                     unordered_set<string> &dict) {
   istream *input = &cin;
   ifstream file;
   if (fileName != "stdin") {
@@ -102,7 +109,7 @@ decodeLinesFromInput(const string &fileName,
 
 // Function to make a dictionary from a file. Takes in a file name.
 // Returns a dictionary as an unordered set of strings.
-unordered_set<string> makeDictionary(const string &fileName) {
+unordered_set<string> makeDictionary(string &fileName) {
   ifstream file(fileName);
   unordered_set<string> dict;
   string line;
@@ -115,7 +122,7 @@ unordered_set<string> makeDictionary(const string &fileName) {
 
 // Function to set dictionary path. Takes in path as string.
 // Returns string based on presence of path.
-string setDictionaryPath(const string path) {
+string setDictionaryPath(string path) {
   if (path.empty()) {
     return "wordlist.txt";
   }
@@ -124,7 +131,7 @@ string setDictionaryPath(const string path) {
 
 // Function to set input path. Takes in a path as string.
 // Returns string based on presence of path.
-string setInputPath(const string path) {
+string setInputPath(string path) {
   if (path.empty()) {
     return "stdin";
   }
@@ -133,7 +140,7 @@ string setInputPath(const string path) {
 
 // Function to set output path. Takes in path as string.
 // Returns string based on presence of path.
-string setOutputPath(const string path) {
+string setOutputPath(string path) {
   if (path.empty()) {
     return "stdout";
   }
@@ -142,7 +149,7 @@ string setOutputPath(const string path) {
 
 // Function to write the output of decoded string in queue. Takes in queue
 // holding a decoded string and path of output as string.
-void writeToOutput(queue<pair<int, string>> decodedQ, const string output) {
+void writeToOutput(queue<pair<int, string>> decodedQ, string output) {
   // write to stdout
   if (output == "stdout") {
     while (!decodedQ.empty()) {
@@ -169,32 +176,19 @@ int main(int argc, char **argv) {
   string inputPath = "stdin";
   string outputPath = "stdout";
 
-  for (int i; i < argc; i++) {
-    if (strcmp(argv[i], "-d") == 0 | strcmp(argv[i], "-dict") == 0) {
-      dictionaryPath = setDictionaryPath(argv[i + 1]);
-      continue;
-    }
-    if (strcmp(argv[i], "-i") == 0 | strcmp(argv[i], "-input") == 0) {
-      inputPath = setInputPath(argv[i + 1]);
-      continue;
-    }
-    if (strcmp(argv[i], "-o") == 0 | strcmp(argv[i], "-output") == 0) {
-      outputPath = setOutputPath(argv[i + 1]);
-      continue;
-    }
-    if (strcmp(argv[i], "-h") == 0 | strcmp(argv[i], "-help") == 0) {
-      cout << "COMP 439 HW1: Caesar Cipher Decoder" << endl;
-      cout << " -d | -dict        Location of dictionary containing word list "
-              "(default = wordlist.txt)"
-           << endl;
-      cout << " -i | -input       Input filename. No input defaults to $STDIN"
-           << endl;
-      cout << " -o | -output      Output filename. No input defaults to $STDOUT"
-           << endl;
-      cout << " -h | -help        Display this message" << endl;
-      return 1;
-    }
-  }
+  CLI::App app{"Caesar Cipher Decoder"};
+
+  app.option_defaults()->always_capture_default(true);
+
+  app.add_option("-d,--dict", dictionaryPath,
+                "Path to dictionary (default = wordlist.txt");
+
+  app.add_option("-i,--input", inputPath, "Input path (default = $STDIN)");
+
+  app.add_option("-o,--output", outputPath, "Output path (default = $STDOUT)");
+
+  CLI11_PARSE(app, argc, argv);
+  
 
   // create dictionary
   unordered_set<string> dictionary = makeDictionary(dictionaryPath);

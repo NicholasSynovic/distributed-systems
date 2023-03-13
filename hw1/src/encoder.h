@@ -11,13 +11,13 @@
 
 using namespace std;
 
-int setNumberOfSentences(char *charLines);
+// int setNumberOfSentences(char *charLines);
 
-int setMinimumWordLength(char *charLength);
+// int setMinimumWordLength(char *charLength);
 
-string setDictionaryPath(string path);
+// string setDictionaryPath(string path);
 
-string setOutputPath(string path);
+// string setOutputPath(string path);
 
 set<string> loadDictionary(string dictionaryPath, int minimumWordLength);
 

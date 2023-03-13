@@ -12,22 +12,24 @@
 
 using namespace std;
 
-queue<string> splitString(const string &toSplit);
+int do_nothing();
 
-string shiftString(const string &toShift, const int &shiftValue);
+queue<string> splitString(string &toSplit);
 
-pair<int, string> decode(const unordered_set<string> &dict, const string &toDecode);
+string shiftString(string &toShift, int &shiftValue);
 
-queue<pair<int, string>> decodeLinesFromInput(const string &fileName, const unordered_set<string> &dict);
+pair<int, string> decode(unordered_set<string> &dict, string &toDecode);
 
-unordered_set<string> makeDictionary(const string &fileName);
+queue<pair<int, string>> decodeLinesFromInput(string &fileName, unordered_set<string> &dict);
 
-string setDictionaryPath(const string path);
+unordered_set<string> makeDictionary(string &fileName);
 
-string setInputPath(const string path);
+string setDictionaryPath(string path);
 
-string setOutputPath(const string path);
+string setInputPath(string path);
 
-void writeToOutput(queue<pair<int, string>> decodedQ, const string output);
+string setOutputPath(string path);
+
+void writeToOutput(queue<pair<int, string>> decodedQ, string output);
 
 #endif

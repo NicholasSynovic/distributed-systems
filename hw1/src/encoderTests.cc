@@ -10,25 +10,25 @@
 //     ASSERT_EQ(0, square_root(0.0));
 // }
 
-TEST(EncoderTests, setNumberOfSentences) {
-  ASSERT_EQ(10, setNumberOfSentences(0));
-  ASSERT_EQ(1, setNumberOfSentences(1));
-}
+// TEST(EncoderTests, setNumberOfSentences) {
+//   ASSERT_EQ(10, setNumberOfSentences(0));
+//   ASSERT_EQ(1, setNumberOfSentences(1));
+// }
 
-TEST(EncoderTests, setMinimumWordLength) {
-  ASSERT_EQ(3, setMinimumWordLength(0));
-  ASSERT_EQ(1, setNumberOfSentences(1));
-}
+// TEST(EncoderTests, setMinimumWordLength) {
+//   ASSERT_EQ(3, setMinimumWordLength(0));
+//   ASSERT_EQ(1, setNumberOfSentences(1));
+// }
 
-TEST(EncoderTests, setDictionaryPath) {
-  ASSERT_EQ("wordlist.txt", setDictionaryPath());
-  ASSERT_EQ("test", setDictionaryPath("test"));
-}
+// TEST(EncoderTests, setDictionaryPath) {
+//   ASSERT_EQ("wordlist.txt", setDictionaryPath());
+//   ASSERT_EQ("test", setDictionaryPath("test"));
+// }
 
-TEST(EncoderTests, setOutputPath) {
-  ASSERT_EQ("stdout", setOutputPath());
-  ASSERT_EQ("test", setOutputPath("test"));
-}
+// TEST(EncoderTests, setOutputPath) {
+//   ASSERT_EQ("stdout", setOutputPath());
+//   ASSERT_EQ("test", setOutputPath("test"));
+// }
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
